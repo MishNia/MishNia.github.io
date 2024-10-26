@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Potter Pop Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cormorant Infant', cursive;
+            background-image: url('image.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            text-align: center;
+            color: #ffe600;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            transition: background 0.3s;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid #444;
+            text-align: left;
+            color: #f1f1f1;
+        }
+        th {
+            background-color: #5e8b87;
+            color: white;
+        }
+        .button-container {
+            text-align: center;
+        }
+        textarea {
+            width: 80%;
+            border-radius: 5px;
+            resize: none;
+            background-color: #333;
+            color: #f1f1f1;
+            font-family:'Times New Roman', Times, serif;
+            font-size: 18px; /* Adjust font size as needed */
+            resize: none;
+            color: #f1f1f1; /* Light text color */
+            padding: 10px;
+            border: none;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+            height: 200px;
+            line-height: 1.5;
+        }
+        input[type="text"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            background-color: #444;
+            color: #f1f1f1;
+        }
+        input[type="button"] {
+            background-color: #5e8b87;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="button"]:hover {
+            background-color: #4d7a78;
+        }
+        small {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #ffe600;
+        }
+        #thesolution {
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 15px;
+            color: #ffe600;
+        }
+        #thequestion {
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Harry Potter Pop Quiz</h1>
+
+        <form method="POST" name="instantquiz">
+            <table>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <textarea rows="10" name="thequestion" wrap="virtual" readonly></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <div style="margin-bottom: 5px;">
+                            <strong>Your response:</strong>
+                        </div>
+                        <div>
+                            <select name="theresponse" size="1" onChange="responses()" style="width: 80px; text-align: center;">
+                                <option value="-----">----</option>
+                                <option value="a">a</option>
+                                <option value="b">b</option>
+                                <option value="c">c</option>
+                                <option value="d">d</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <div style="margin-bottom: 5px;">
+                            <strong>Result</strong>
+                        </div>
+                        <div id="thesolution"></div>
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="2" class="button-container">
+                        <input type="button" value="<< Back" name="B1" onClick="if (whichone > 1){whichone--;generatequestions()}">
+                        <input type="button" value="Next >>" name="B2" onClick="if (whichone <= total){whichone++;generatequestions()}"><br>
+                        <br>
+                        <label><a href="#" onClick="whichone=1;generatequestions();return false" style="color: #f1f1f1;">Start Over</a></label>
+                        <label style="margin-left: 20px;">
+                            <input type="checkbox" name="cmode" value="ON"> Cheat Mode
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script src="solution.js"></script>
+    <script language="JavaScript1.1">
+        var whichone = 1;
+        var tempmn = document.instantquiz.thequestion;
+        var total = 8;
+        
+        function generatequestions() {
+            document.instantquiz.theresponse.selectedIndex = 0;
+            document.getElementById('thesolution').innerHTML = ""; // Clear solution text
+            if (!document.instantquiz.cmode.checked || whichone >= total + 1 || whichone <= 0)
+                document.getElementById('thesolution').innerHTML = "";
+            if (whichone >= total + 1)
+                tempmn.value = "End of quiz";
+            else {
+                tempmn.value = whichone + ")" + question[whichone] + "\n\n" + "a)" + eval('choice' + whichone + '[1]') + "\n" + "b)" + eval('choice' + whichone + '[2]') + "\n" + "c)" + eval('choice' + whichone + '[3]') + "\n" + "d)" + eval('choice' + whichone + '[4]');
+                if (document.instantquiz.cmode.checked)
+                    document.getElementById('thesolution').innerHTML = solution[whichone];
+            }
+        }
+        
+        function responses() {
+            var temp2 = document.instantquiz.theresponse;
+            var temp3 = temp2.options[temp2.selectedIndex].text;
+            var thesolutionDiv = document.getElementById('thesolution');
+            if (temp3 != solution[whichone] && temp2.selectedIndex != 0)
+                thesolutionDiv.innerHTML = "Sorry, the correct answer is " + solution[whichone];
+            else if (temp2.selectedIndex != 0)
+                thesolutionDiv.innerHTML = compliments[Math.floor(Math.random() * compliments.length)];
+        }
+        
+        generatequestions();
+    </script>
+</body>
+</html>
