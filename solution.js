@@ -70,6 +70,18 @@ choice8[2]="Thestral"
 choice8[3]="Basilisk"
 choice8[4]="Phoenix"
 
+question[9] = "What form does Harry's Patronus take?";
+choice9[1] = "A lion";
+choice9[2] = "A phoenix"; 
+choice9[3] = "A stag";
+choice9[4] = "An otter";
+
+question[10] = "What magical plant screams when uprooted and is used to restore those petrified?";
+choice10[1] = "Mandrake";
+choice10[2] = "Bubotuber";
+choice10[3] = "Devil's Snare";
+choice10[4] = "Gillyweed";
+
 solution[1]="c"
 solution[2]="a"
 solution[3]="a"
@@ -78,3 +90,6 @@ solution[5]="c"
 solution[6]="d"
 solution[7]="b"
 solution[8]="b"
+solution[9]="c"
+solution[10]="a"
+
